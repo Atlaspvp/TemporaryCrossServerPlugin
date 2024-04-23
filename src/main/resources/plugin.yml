@@ -1,0 +1,6 @@
+name: CrossServerTest
+version: '${project.version}'
+main: net.atlaspvp.crossservertest.CrossServerTest
+api-version: 1.20
+commands:
+  test:
