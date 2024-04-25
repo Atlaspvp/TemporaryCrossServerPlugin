@@ -7,4 +7,5 @@ public interface SecondaryMethods extends Remote { // Secondary referencing this
     void storeByte(String key, byte[] byteArray) throws java.rmi.RemoteException;
     byte[] getByte(String key) throws java.rmi.RemoteException;
     void syncChat(String player, String message) throws java.rmi.RemoteException;
+    boolean syncPlayer(String uuid, byte[] PlayerData) throws java.rmi.RemoteException;
 }

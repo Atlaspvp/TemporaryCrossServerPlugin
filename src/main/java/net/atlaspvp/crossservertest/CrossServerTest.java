@@ -69,4 +69,6 @@ public final class CrossServerTest extends JavaPlugin {
     public static PrimaryMethods getPrimary() {
         return primary;
     }
+
+
 }

@@ -6,24 +6,40 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 public class TestCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        String senderName = sender.getName();
-        String senderUUID = Bukkit.getPlayer(senderName).getUniqueId().toString();
+        Player player = Bukkit.getPlayer(sender.getName());
 
-        try {
-            byte[] SerialPlayer = CrossServerTest.getPrimary().getByte(senderUUID);
-            PlayerData playerData = PlayerData.deserializeTest(SerialPlayer);
+        if (args[0].equals("hub")) {
 
-            sender.sendMessage(playerData.getName());
-            sender.sendMessage(playerData.getUuid());
 
-        } catch (Exception e) {
-            e.printStackTrace();
+
+        } else if (args[0].equals("factions")) {
+
+
+
         }
+
+        PlayerData pd = new PlayerData(player);
+        sender.sendMessage("Created the PlayerData for " + player.getName());
+        sender.sendMessage("Serializing...");
+        byte[] spd = pd.toByteArray();
+        sender.sendMessage("Serialized :)");
+        sender.sendMessage("Attempting DeSerialize");
+        PlayerData npd = PlayerData.fromByteArray(spd);
+        sender.sendMessage("Deserialized:");
+        sender.sendMessage(npd.getPlayerId().toString());
+        player.sendMessage(npd.getPlayerName());
+        sender.sendMessage("Clearing Inv");
+        player.getInventory().clear();
+        sender.sendMessage("Setting Inv");
+        player.getInventory().setContents(npd.getInventoryContents());
+
         return true;
     }
 }

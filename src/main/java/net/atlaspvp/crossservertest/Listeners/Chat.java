@@ -3,6 +3,7 @@ package net.atlaspvp.crossservertest.Listeners;
 import io.papermc.paper.event.player.AsyncChatEvent;
 import it.unimi.dsi.fastutil.Pair;
 import net.atlaspvp.Objects.PlayerData;
+import net.atlaspvp.RemoteMethods.SecondaryMethods;
 import net.atlaspvp.crossservertest.CrossServerTest;
 import net.atlaspvp.crossservertest.Events.MessageReceivedEvent;
 import net.kyori.adventure.text.Component;
@@ -18,6 +19,7 @@ import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.inventory.ItemStack;
 
 import java.rmi.RemoteException;
 import java.util.HashMap;
@@ -54,45 +56,5 @@ public class Chat implements Listener {
 
     public static HashMap<String, PlayerData> onlinePlayer = new HashMap<>();
 
-    @EventHandler
-    public void onPreConnect(AsyncPlayerPreLoginEvent e) {
-        String player = e.getUniqueId().toString();
 
-        try {
-            byte[] PlayerArray = CrossServerTest.getPrimary().getByte(player);
-            PlayerData playerData = PlayerData.deserializeTest(PlayerArray);
-
-            onlinePlayer.put(player, playerData);
-        } catch (RemoteException r) {
-            r.printStackTrace();
-        }
-    }
-
-    @EventHandler
-    public void onRealConnect(PlayerJoinEvent e) {
-        String playeruuid = e.getPlayer().getUniqueId().toString();
-        if (onlinePlayer.containsKey(playeruuid)) {
-            PlayerData player = onlinePlayer.get(playeruuid);
-            e.getPlayer().getInventory().setContents(player.getInventory());
-        } else {
-            System.out.println("If Statement is false didnt get the data from redis");
-        }
-    }
-
-    @EventHandler
-    public void onCloseConnect(PlayerQuitEvent e) {
-        Player player = e.getPlayer();
-
-        PlayerData playerData = new PlayerData();
-        playerData.setName(player.getName());
-        playerData.setUuid(player.getUniqueId().toString());
-        playerData.setInventory(player.getInventory().getContents());
-
-        try {
-            CrossServerTest.getPrimary().storeByte(player.getUniqueId().toString(), playerData.Serialize());
-            onlinePlayer.remove(player.getUniqueId().toString());
-        } catch (RemoteException r) {
-            r.printStackTrace();
-        }
-    }
 }
