@@ -12,11 +12,11 @@ public interface PrimaryMethods extends Remote { // Primary means methods perfor
     double getDouble(String key) throws java.rmi.RemoteException;
     String getString(String key) throws java.rmi.RemoteException;*/
     byte[] getByte(String key) throws java.rmi.RemoteException;
+    byte[] loadPlayer(String uuid) throws java.rmi.RemoteException;
     void storeByte(String key, byte[] saving) throws java.rmi.RemoteException;
     void syncChat(String player, String message) throws java.rmi.RemoteException;
-
     void connectSecondary(String name,int port) throws java.rmi.RemoteException;
     void closeSecondary(int port) throws java.rmi.RemoteException;
+    boolean sendPlayer(int port, String uuid, byte[] pd) throws java.rmi.RemoteException;
     boolean exists(String key) throws java.rmi.RemoteException;
-
 }

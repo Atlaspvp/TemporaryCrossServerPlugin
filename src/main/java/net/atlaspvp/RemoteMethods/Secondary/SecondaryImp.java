@@ -23,7 +23,7 @@ public class SecondaryImp implements SecondaryMethods {
     public boolean syncPlayer(String uuid, byte[] SerializedPD) throws java.rmi.RemoteException {
         PlayerData pd = PlayerData.fromByteArray(SerializedPD);
         if (pd != null) {
-            Chat.onlinePlayer.put(pd.getPlayerId().toString(), pd);
+            Chat.onlinePlayer.put(uuid, pd);
             return true;
         } else {
             return false;

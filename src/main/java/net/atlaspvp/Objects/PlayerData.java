@@ -3,6 +3,7 @@ package net.atlaspvp.Objects;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Player;
@@ -12,16 +13,18 @@ import org.bukkit.util.io.BukkitObjectInputStream;
 import org.bukkit.util.io.BukkitObjectOutputStream;
 
 import java.io.*;
+import java.util.Map;
 import java.util.UUID;
 
 @ToString
 @Getter
 @Setter
 public class PlayerData implements Serializable {
+    private static final long serialVersionUID = -5703536933548893803L;
     private final PlayerData playerData;
     private final UUID playerId;
     private final String playerName;
-    private final GameMode gamemode; // TODO convert into VALUE
+    private final int gamemode; // TODO convert into VALUE
     private final int totalExperience;
     private final int level;
     private final float exp;
@@ -40,7 +43,7 @@ public class PlayerData implements Serializable {
     private final int maxNoDamageTicks;
     private final int noDamageTicks;
     private final float fallDistance;
-    private final Vector velocity; // TODO convert into REGEX string
+    private final Map<String, Object> velocity; // TODO convert into REGEX string
     private final int heldItemSlot;
 
     public PlayerData(Player player) {
@@ -48,7 +51,7 @@ public class PlayerData implements Serializable {
         this.inventory = serializeItems(player.getInventory().getContents());
         this.playerId = player.getUniqueId();
         this.playerName = player.getName();
-        this.gamemode = player.getGameMode();
+        this.gamemode = player.getGameMode().getValue();
         this.totalExperience = player.getTotalExperience();
         this.level = player.getLevel();
         this.exp = player.getExp();
@@ -65,9 +68,16 @@ public class PlayerData implements Serializable {
         this.fireTicks = player.getFireTicks();
         this.maxNoDamageTicks = player.getMaximumNoDamageTicks();
         this.noDamageTicks = player.getNoDamageTicks();
-        this.velocity = player.getVelocity();
+        this.velocity = player.getVelocity().serialize();
         this.fallDistance = player.getFallDistance();
         this.heldItemSlot = player.getInventory().getHeldItemSlot();
+    }
+    public GameMode getGamemode() {
+        return GameMode.getByValue(gamemode);
+    }
+
+    public Vector getVelocity() {
+        return Vector.deserialize(velocity);
     }
 
     public ItemStack[] getInventoryContents() {
@@ -88,6 +98,13 @@ public class PlayerData implements Serializable {
             e.printStackTrace();
         }
         return new byte[0];
+    }
+
+    public void applyData() {
+        Player player = Bukkit.getPlayer(playerId);
+        player.getInventory().setContents(getInventoryContents());
+        player.setGameMode(getGamemode());
+
     }
 
     private static byte[][] serializeItems(ItemStack[] items) {

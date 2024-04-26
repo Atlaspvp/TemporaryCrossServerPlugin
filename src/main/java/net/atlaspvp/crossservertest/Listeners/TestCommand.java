@@ -8,6 +8,10 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import us.ajg0702.queue.api.AjQueueAPI;
+import us.ajg0702.queue.api.spigot.AjQueueSpigotAPI;
+
+import java.rmi.RemoteException;
 
 public class TestCommand implements CommandExecutor {
 
@@ -16,30 +20,26 @@ public class TestCommand implements CommandExecutor {
         Player player = Bukkit.getPlayer(sender.getName());
 
         if (args[0].equals("hub")) {
-
-
-
+            try {
+                if (CrossServerTest.getPrimary().sendPlayer(27010, player.getUniqueId().toString(), new PlayerData(player).toByteArray())) {
+                    AjQueueSpigotAPI.getInstance().addToQueue(player.getUniqueId(), "hub");
+                } else {
+                    System.out.println("A Problem Occured Whilst Syncing Player Data To Hub");
+                }
+            } catch (RemoteException e){
+                e.printStackTrace();
+            }
         } else if (args[0].equals("factions")) {
-
-
-
+            try {
+                if (CrossServerTest.getPrimary().sendPlayer(27003, player.getUniqueId().toString(), new PlayerData(player).toByteArray())) {
+                    AjQueueSpigotAPI.getInstance().addToQueue(player.getUniqueId(), "factions");
+                } else {
+                    System.out.println("A Problem Occured Whilst Syncing Player Data To Factions");
+                }
+            } catch (RemoteException e){
+                e.printStackTrace();
+            }
         }
-
-        PlayerData pd = new PlayerData(player);
-        sender.sendMessage("Created the PlayerData for " + player.getName());
-        sender.sendMessage("Serializing...");
-        byte[] spd = pd.toByteArray();
-        sender.sendMessage("Serialized :)");
-        sender.sendMessage("Attempting DeSerialize");
-        PlayerData npd = PlayerData.fromByteArray(spd);
-        sender.sendMessage("Deserialized:");
-        sender.sendMessage(npd.getPlayerId().toString());
-        player.sendMessage(npd.getPlayerName());
-        sender.sendMessage("Clearing Inv");
-        player.getInventory().clear();
-        sender.sendMessage("Setting Inv");
-        player.getInventory().setContents(npd.getInventoryContents());
-
         return true;
     }
 }
