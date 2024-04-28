@@ -7,6 +7,7 @@ import org.bukkit.plugin.Plugin;
 import java.io.File;
 
 public class Configuration {
+    //@TODO: cache the config values
 
     private static org.bukkit.plugin.Plugin Plugin;
     private static File file;

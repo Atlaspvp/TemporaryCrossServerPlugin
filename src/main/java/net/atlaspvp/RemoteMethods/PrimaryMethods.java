@@ -19,4 +19,11 @@ public interface PrimaryMethods extends Remote { // Primary means methods perfor
     void closeSecondary(int port) throws java.rmi.RemoteException;
     boolean sendPlayer(int port, String uuid, byte[] pd) throws java.rmi.RemoteException;
     boolean exists(String key) throws java.rmi.RemoteException;
+
+    //new methods, using schema in dc chat
+
+    void storePlayerDataAndUnlock(String uuid, byte[] pd, String server) throws java.rmi.RemoteException;
+    byte[] getPlayerDataAndLock(String uuid, String server) throws java.rmi.RemoteException;
+
+
 }

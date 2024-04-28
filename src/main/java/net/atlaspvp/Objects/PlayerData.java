@@ -72,6 +72,12 @@ public class PlayerData implements Serializable {
         this.fallDistance = player.getFallDistance();
         this.heldItemSlot = player.getInventory().getHeldItemSlot();
     }
+
+
+
+
+
+
     public GameMode getGamemode() {
         return GameMode.getByValue(gamemode);
     }
@@ -134,12 +140,9 @@ public class PlayerData implements Serializable {
         try (ByteArrayInputStream bis = new ByteArrayInputStream(bytes);
              ObjectInput in = new BukkitObjectInputStream(bis)) {
             return (PlayerData) in.readObject();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
+        } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
-
         return null;
     }
 }

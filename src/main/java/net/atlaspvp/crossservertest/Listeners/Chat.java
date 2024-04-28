@@ -56,16 +56,7 @@ public class Chat implements Listener {
 
     public static HashMap<String, PlayerData> onlinePlayer = new HashMap<>();
 
-    @EventHandler
-    public void onJoin(PlayerJoinEvent e) {
-        if (onlinePlayer.containsKey(e.getPlayer().getUniqueId().toString())) {
-            Player player = e.getPlayer();
-            PlayerData pd = onlinePlayer.get(player.getUniqueId().toString());
-            PlayerData.applyData(player, pd);
-        } else {
-            System.out.println("No PlayerData BB");
-        }
-    }
+
 
 
 }

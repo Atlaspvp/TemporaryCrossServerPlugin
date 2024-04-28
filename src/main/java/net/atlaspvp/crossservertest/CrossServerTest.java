@@ -18,6 +18,8 @@ public final class CrossServerTest extends JavaPlugin {
     @Override
     public void onEnable() {
         getCommand("test").setExecutor(new TestCommand());
+        //getServer().getPluginManager().registerEvents(new Chat(), this);
+
         getServer().getPluginManager().registerEvents(new Chat(), this);
         Configuration.Initialize(this);
         Primary();
