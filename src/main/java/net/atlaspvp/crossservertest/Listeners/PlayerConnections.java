@@ -20,7 +20,7 @@ public class PlayerConnections implements Listener {
 
     @EventHandler
     public void onPreJoin(AsyncPlayerPreLoginEvent e) {
-        //before the player is allowed to join the network we get the pd from the rsi server and cache it locally
+        //before the player is allowed to join the network we get the pd from the rmi server and cache it locally
         UUID uuid = e.getUniqueId();
         byte[] bytes = null;
         try {
@@ -41,6 +41,11 @@ public class PlayerConnections implements Listener {
         //when the player actually joins we set the locally cached pd to the player
         Player player = e.getPlayer();
         UUID uuid = player.getUniqueId();
+
+        //only set the pd if it is in the cache
+        if(!localCache.containsKey(uuid)) {
+            return;
+        }
 
         PlayerData pd = localCache.get(uuid);
         pd.applyData();

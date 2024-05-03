@@ -110,6 +110,25 @@ public class PlayerData implements Serializable {
         Player player = Bukkit.getPlayer(playerId);
         player.getInventory().setContents(getInventoryContents());
         player.setGameMode(getGamemode());
+        player.setTotalExperience(totalExperience);
+        player.setLevel(level);
+        player.setExp(exp);
+        player.getEnderChest().setContents(getEnderchestContents());
+        player.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(maxHealth);
+        player.setHealth(health);
+        player.setHealthScaled(isHealthScaled);
+        player.setHealthScale(healthScale);
+        player.setFoodLevel(foodLevel);
+        player.setSaturation(saturation);
+        player.setExhaustion(exhaustion);
+        player.setMaximumAir(maxAir);
+        player.setRemainingAir(remainingAir);
+        player.setFireTicks(fireTicks);
+        player.setMaximumNoDamageTicks(maxNoDamageTicks);
+        player.setNoDamageTicks(noDamageTicks);
+        player.setVelocity(getVelocity());
+        player.setFallDistance(fallDistance);
+        player.getInventory().setHeldItemSlot(heldItemSlot);
 
     }
 

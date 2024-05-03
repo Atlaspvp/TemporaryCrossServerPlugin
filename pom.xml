@@ -75,13 +75,6 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>dev.rosewood</groupId>
-            <artifactId>rosechat</artifactId>
-            <version>1.0</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/src/main/resources/RoseChat.jar</systemPath>
-        </dependency>
-        <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>1.18.28</version>
